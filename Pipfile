@@ -6,7 +6,10 @@ name = "pypi"
 [packages]
 rxpy3 = "*"
 
+
 [dev-packages]
+flake8 = "*"
+black = "==21.11b1"  # pinned, because black is still pre-release. See https://github.com/pypa/pipenv/issues/1760#issuecomment-677702984
 
 [requires]
 python_version = "3.8"
