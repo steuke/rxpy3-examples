@@ -5,7 +5,7 @@
 
 from time import sleep
 
-from rx3 import operators, interval
+from rx import operators, interval
 
 
 def buffer_example():

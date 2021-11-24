@@ -7,8 +7,8 @@
 from time import sleep
 from typing import Optional
 
-from rx3 import operators, create
-from rx3.core.typing import Observer, Scheduler, Disposable
+from rx import operators, create
+from rx.core.typing import Observer, Scheduler, Disposable
 
 
 def multiple_observers_example():
