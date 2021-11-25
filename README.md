@@ -1,3 +1,8 @@
+## Content
+
+- `examples`:  different examples using rxPY version 3.x
+- `tests`: tests that show the expected output of the examples scripts
+
 ## About
 
 This repository contains the source for the following blog-posts:
