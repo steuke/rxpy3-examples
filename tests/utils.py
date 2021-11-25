@@ -2,6 +2,7 @@ from io import StringIO
 import sys
 
 # Taken from: https://stackoverflow.com/questions/16571150/how-to-capture-stdout-output-from-a-python-function-call
+from os import linesep
 
 
 class capture_stdout_as_list(list):
@@ -14,3 +15,6 @@ class capture_stdout_as_list(list):
         self.extend(self._stringio.getvalue().splitlines())
         del self._stringio
         sys.stdout = self._stdout
+
+    def to_string(self):
+        return linesep.join(self)

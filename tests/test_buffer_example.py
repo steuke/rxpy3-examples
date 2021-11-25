@@ -1,5 +1,3 @@
-from os import linesep
-
 from examples.rx3_buffer_example import buffer_example
 from tests.utils import capture_stdout_as_list
 
@@ -20,4 +18,4 @@ def test_buffer_example():
         buffer_example()
 
     # assert
-    assert linesep.join(output) == expected_output
+    assert output.to_string() == expected_output
