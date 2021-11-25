@@ -28,8 +28,7 @@ def buffer_example():
     )
     print("Subscribing to source")
     source.subscribe()
-    while True:
-        sleep(10)
+    sleep(2)
 
 
 if __name__ == "__main__":
