@@ -18,4 +18,4 @@ def test_buffer_example():
         buffer_example()
 
     # assert
-    assert output.to_string() == expected_output
+    assert str(output) == expected_output

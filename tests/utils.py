@@ -16,5 +16,5 @@ class capture_stdout_as_list(list):
         del self._stringio
         sys.stdout = self._stdout
 
-    def to_string(self):
+    def __str__(self):
         return linesep.join(self)
