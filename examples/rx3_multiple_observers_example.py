@@ -3,36 +3,34 @@
 # https://blog.ukena.de/posts/2021/11/rxpy3-multiple-using-observers-and-buffer/
 #
 
-
-from time import sleep
-from typing import Optional
+from typing import Optional, Iterable
 
 from rx import operators, create
 from rx.core.typing import Observer, Scheduler, Disposable
 
 
-def multiple_observers_example():
+def multiple_observers_example(items: Iterable):
     def dequeue(observer: Observer, scheduler: Optional[Scheduler]) -> Disposable:
-        next_item = 0
-        while True:
+        for item in items:
             try:
-                next_item += 1
-                observer.on_next(next_item)
-                sleep(0.3)
+                observer.on_next(item)
             except Exception as e:
                 observer.on_error(e)
                 return Disposable()
 
-    observable = create(dequeue).pipe(operators.publish())
-    skip4 = observable.pipe(operators.filter(lambda x: x % 3 == 0))
-    skip4.subscribe(lambda x: print(f"skipped to {x}"))
-    buffer = observable.pipe(operators.buffer(skip4))
-    buffer.subscribe(lambda x: print(f"processing buffered events {x}"))
+    observable = create(dequeue).pipe(
+        operators.do_action(on_next=lambda x: print(f"emitting {x}")),
+        operators.publish(),
+    )
+    modulo3 = observable.pipe(operators.filter(lambda x: x % 3 == 0))
+    modulo3.subscribe(
+        lambda x: print(f"modulo3 is emitting item {x}, which triggers buffer")
+    )
+    buffer = observable.pipe(operators.buffer(modulo3))
+    buffer.subscribe(lambda x: print(f"buffer emitted: {x}"))
     print("Connecting")
     observable.connect()
-    while True:
-        sleep(10)
 
 
 if __name__ == "__main__":
-    multiple_observers_example()
+    multiple_observers_example(items=range(0, 10))
