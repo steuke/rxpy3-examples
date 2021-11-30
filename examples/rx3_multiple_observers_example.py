@@ -9,6 +9,14 @@ from rx import operators, create
 from rx.core.typing import Observer, Scheduler, Disposable
 
 
+class NamedDisposable(Disposable):
+    def __init__(self, name: str):
+        self.name = name
+
+    def dispose(self) -> None:
+        print(f"disposing {self.name}")
+
+
 def multiple_observers_example(items: Iterable):
     def dequeue(observer: Observer, scheduler: Optional[Scheduler]) -> Disposable:
         for item in items:
@@ -16,8 +24,9 @@ def multiple_observers_example(items: Iterable):
                 observer.on_next(item)
             except Exception as e:
                 observer.on_error(e)
-                return Disposable()
+                return NamedDisposable("because of error")
         observer.on_completed()
+        return NamedDisposable("normally")
 
     observable = create(dequeue).pipe(
         operators.do_action(

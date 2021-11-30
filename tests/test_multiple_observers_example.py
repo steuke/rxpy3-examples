@@ -23,7 +23,8 @@ buffer emitted: [7, 8, 9]
 source completed
 modulo3 completed
 buffer emitted: []
-buffer completed"""
+buffer completed
+disposing normally"""
 
 
 def test_multiple_observers_example():
