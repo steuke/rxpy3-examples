@@ -19,7 +19,11 @@ emitting 7
 emitting 8
 emitting 9
 modulo3 is emitting item 9, which triggers buffer
-buffer emitted: [7, 8, 9]"""
+buffer emitted: [7, 8, 9]
+source completed
+modulo3 completed
+buffer emitted: []
+buffer completed"""
 
 
 def test_multiple_observers_example():

@@ -17,17 +17,28 @@ def multiple_observers_example(items: Iterable):
             except Exception as e:
                 observer.on_error(e)
                 return Disposable()
+        observer.on_completed()
 
     observable = create(dequeue).pipe(
-        operators.do_action(on_next=lambda x: print(f"emitting {x}")),
+        operators.do_action(
+            on_next=lambda x: print(f"emitting {x}"),
+            on_completed=lambda: print("source completed"),
+            on_error=lambda e: print(f"source error {e}"),
+        ),
         operators.publish(),
     )
     modulo3 = observable.pipe(operators.filter(lambda x: x % 3 == 0))
     modulo3.subscribe(
-        lambda x: print(f"modulo3 is emitting item {x}, which triggers buffer")
+        on_next=lambda x: print(f"modulo3 is emitting item {x}, which triggers buffer"),
+        on_completed=lambda: print("modulo3 completed"),
+        on_error=lambda e: print(f"modulo3 error {e}"),
     )
     buffer = observable.pipe(operators.buffer(modulo3))
-    buffer.subscribe(lambda x: print(f"buffer emitted: {x}"))
+    buffer.subscribe(
+        on_next=lambda x: print(f"buffer emitted: {x}"),
+        on_completed=lambda: print("buffer completed"),
+        on_error=lambda e: print(f"buffer error {e}"),
+    )
     print("Connecting")
     observable.connect()
 
